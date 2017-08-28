@@ -3,6 +3,47 @@
 
 namespace iterator_tpl {
 
+#define EXPOSE_STL_VECTOR(V) \
+  EXPOSE_STL_ITERATORS(V)    \
+  EXPOSE_STL_ACCESORS(V)     \
+  EXPOSE_STL_SIZE(V)         \
+  EXPOSE_STL_MODIFIERS(V)    \
+  EXPOSE_STL_FRONT_BACK(V)
+
+#define EXPOSE_STL_ITERATORS(V)                                             \
+  decltype(V)::iterator               begin ()       { return V.begin (); } \
+  decltype(V)::iterator               end   ()       { return V.end   (); } \
+  decltype(V)::const_iterator         begin () const { return V.begin (); } \
+  decltype(V)::const_iterator         end   () const { return V.end   (); } \
+  decltype(V)::reverse_iterator       rbegin()       { return V.rbegin(); } \
+  decltype(V)::reverse_iterator       rend  ()       { return V.rend  (); } \
+  decltype(V)::const_reverse_iterator rbegin() const { return V.rbegin(); } \
+  decltype(V)::const_reverse_iterator rend  () const { return V.rend  (); } \
+
+#define EXPOSE_STL_ACCESORS(V)                                                                    \
+  decltype(V)::reference       at        (decltype(V)::size_type pos)       { return V.at(pos); } \
+  decltype(V)::const_reference at        (decltype(V)::size_type pos) const { return V.at(pos); } \
+  decltype(V)::reference       operator[](decltype(V)::size_type pos)       { return V[pos];    } \
+  decltype(V)::const_reference operator[](decltype(V)::size_type pos) const { return V[pos];    } \
+
+#define EXPOSE_STL_SIZE(V)                                            \
+  decltype(V)::size_type size()  const noexcept { return V.size();  } \
+  bool                   empty() const noexcept { return V.empty(); }
+
+#define EXPOSE_STL_MODIFIERS(V)                                             \
+  void push_back(const decltype(V)::value_type &val ) { V.push_back(val); } \
+  void push_back(      decltype(V)::value_type &&val) { V.push_back(val); } \
+  template< class... Args >                                                 \
+  void emplace_back(Args&&... args) { V.emplace_back(args...); }
+
+#define EXPOSE_STL_FRONT_BACK(V)                                   \
+  decltype(V)::reference       front()       { return V.front(); } \
+  decltype(V)::const_reference front() const { return V.front(); } \
+  decltype(V)::reference       back ()       { return V.back (); } \
+  decltype(V)::const_reference back () const { return V.back (); } 
+
+
+
 // Use this define to declare both:
 // - `iterator`
 // - `const_iterator`:
